@@ -30,7 +30,25 @@ export default function Home() {
   const[holderCheck, setHolderCheck] = useState<string>('');
   const[holderStatus, setHolderStatus] = useState<string>("");
 
+  const[amount, setAmount] = useState<string>('0');
+  const[mintTo, setMintTo] = useState<string>('');
+
   const { address } = useAccount();
+
+  async function mint(){
+    try{
+      const contract = await contractSetup();
+      const tx = await contract?.mint(mintTo, ethers.utils.parseEther(amount.toString()));
+      await tx.wait();
+    }
+    catch(err){
+      setError("Either address is not valid or exceeding max supply limit.");
+      console.log(err)
+    }
+    finally{
+      setLoading(false);
+    }
+  }
 
   async function contractSetup() {
     setLoading(true);
@@ -99,7 +117,7 @@ export default function Home() {
   }
 
   async function changeMaxSupply() {
-
+    if (maxSupply === '') return;
     try {
       const contract = await contractSetup();
 
@@ -261,6 +279,15 @@ export default function Home() {
         <h2 className="text-lg font-bold md:w-[25%]">Transfer Ownership: </h2>
         <input type="text" placeholder="New Owner Address" className="p-2 md:w-[60%] rounded-lg bg-white/20 text-white placeholder:text-white/80" value={newOwner} onChange={(e) => setNewOwner(e.target.value)} />
         <button onClick={transferOwnership} className="bg-black md:w-[15%] rounded-lg hover:scale-105 duration-200 px-5 block py-3">Execute</button>
+      </div>
+
+      <div className="bg-pink-700 p-4 md:w-full rounded-lg text-white flex max-md:flex-col gap-2 md:items-center justify-center">
+        <h2 className="text-lg font-bold md:w-[25%]">Mint: </h2>
+        <div className="md:w-[60%] flex flex-col gap-1">
+          <input type="text" placeholder="To Address" className="p-2 rounded-lg bg-white/20 text-white placeholder:text-white/80" value={mintTo} onChange={(e) => setMintTo(e.target.value)} />
+          <input type="number" placeholder="Amount" className="p-2 rounded-lg bg-white/20 text-white placeholder:text-white/80" value={amount} onChange={(e) => setAmount(e.target.value)} />
+        </div>
+        <button onClick={mint} className="bg-black md:w-[15%] rounded-lg hover:scale-105 duration-200 px-5 block py-3">Execute</button>
       </div>
 
       <div className="bg-red-700 p-4 md:w-full rounded-lg text-white flex max-md:flex-col gap-2 md:items-center justify-center">
