@@ -11,6 +11,8 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
 
+  const[owner, setOwner] = useState<string>('');
+
   const [newOwner, setNewOwner] = useState<string>('');
   const [holderCount, setHolderCount] = useState<number>(0);
   const [currentMaxSupply, setCurrentMaxSupply] = useState<string>('0');
@@ -58,10 +60,11 @@ export default function Home() {
       const holderCount = await contract?.numberOfHolders();
 
       const totalSupply = await contract?.totalSupply();
+      const owner = await contract?.owner();
 
+      
       const status = await contract?.paused();
-
-      console.log(totalSupply);
+      setOwner(owner);
 
       setStatus(status);
       setTotalSupply(Number(ethers.utils.formatEther(totalSupply)).toLocaleString());
@@ -235,6 +238,9 @@ export default function Home() {
       <div className="absolute top-4 right-4">
         <WalletConnectButton />
       </div>
+
+      <h1 className="text-4xl font-bold">Admin Dashboard</h1>
+      <h2>Owner: {owner}</h2>
 
       <div className="flex gap-2 text-xl">
         <div className="p-4 rounded-lg bg-orange-500 text-white">
