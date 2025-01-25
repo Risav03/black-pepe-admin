@@ -5,12 +5,12 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { connectorsForWallets, darkTheme } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, sepolia, WagmiConfig } from "wagmi";
 import { phantomWallet, metaMaskWallet, coinbaseWallet, walletConnectWallet, rainbowWallet } from '@rainbow-me/rainbowkit/wallets';
-import { mainnet, goerli, polygon } from "wagmi/chains";
+import { mainnet, goerli, polygon, base } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 const WalletIdContext = createContext();
 
 const { chains, publicClient } = configureChains(
-  [sepolia],
+  [base],
   [publicProvider()]
 );
 
