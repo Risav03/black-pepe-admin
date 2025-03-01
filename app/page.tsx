@@ -86,7 +86,7 @@ export default function Home() {
         const signer = provider.getSigner();
 
         const contract = new ethers.Contract(contractAdds.token, abi, signer);
-        console.log(contract);
+
         return contract;
       }
     }
