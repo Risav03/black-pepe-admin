@@ -1,4 +1,4 @@
 export const contractAdds = {
-    token : "0x1F279A53a14D789155b1eD0349a03b772b36e722",
+    token : "0x10aD7d5Ef63A8a305769DE9A9a754E846CD6896a",
 
 }
