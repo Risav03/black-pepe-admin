@@ -147,7 +147,7 @@ export default function Home() {
     try {
       const contract = await contractSetup();
 
-      const tx = await contract?.setMaxSupply(maxSupply);
+      const tx = await contract?.setMaxSupply(ethers.utils.parseEther(maxSupply));
       await tx.wait();
 
     }
